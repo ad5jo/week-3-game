@@ -1,0 +1,88 @@
+
+.container {
+	width: 100%;
+	max-width: 960px;
+	margin: 0 auto;
+	clear: both;
+}
+
+
+.sidebar {
+	background: #fff;
+	padding: 30px;
+	width: 100%;
+	max-width: 270px;
+	float: right;
+	border: 1px solid #ddd;
+	margin-bottom: 20px;
+	margin-right: 20px;
+}
+
+
+.sidebar h2 {
+	border-bottom: 2px solid #eee;
+	padding-bottom: 20px;
+	margin-bottom: 15px;
+	line-height: 22px;
+}
+
+.social {
+	width: 62px;
+	height: 62px;
+	margin-top: 8px;
+	margin-right: 5px;
+}
+
+.social:last-child {
+	margin-right: 0;
+}
+
+.main-section {
+	background: #fff;
+	padding: 30px;
+	margin: 0 0 40px 0;
+	width: 100%;
+	max-width: 650px;
+	float: left;
+	border: 1px solid #ddd;
+}
+
+.work {
+	width: 274px;
+	overflow: auto;
+	position: relative;
+	float: left;
+	margin: 20px 0 25px;
+}
+
+.work:nth-child(even) {
+	margin-right: 40px;
+}
+
+.work img {
+	width: 100%;
+	border: 0 none;
+	opacity: .8;
+}
+
+.work h3 {
+	border-bottom: 0;
+	background: #4aaaa5;
+	color: #fff;
+	text-align: center;
+	position: absolute;
+	padding: 15px;
+	width: 100%;
+	bottom: 20px;
+	line-height: 30px;
+	margin-bottom: 0;
+	font-weight: 300;
+}
+
+.auth-image {
+	width: 200px;
+	height: auto;
+	margin-top: 10px;
+	float: left;
+	margin-right: 25px;
+}

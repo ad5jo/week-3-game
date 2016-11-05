@@ -1,0 +1,109 @@
+
+body {
+	background: url("../images/blue_jeans_280.png");
+	font-size: 18px;
+	line-height: 34px;
+	font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+	color: #777;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+h1, h2, h3, p {
+	margin-bottom: 20px;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+
+h1, h2, h3 {
+	font-family: 'Georgia', Times, Times New Roman, serif;
+	font-weight: 700;
+	color: #4aaaa5;
+}
+h1 {
+	font-size: 30px;
+	line-height: 49px;
+	border-bottom: 3px solid #ddd;
+	padding-bottom: 20px;
+}
+
+h2, h3 {
+	font-size: 22px;
+}
+
+li
+{
+	float:left;
+}
+
+nav {
+	float: right;
+	margin-top: 25px;
+	margin-right: 20px;
+}
+
+nav a {
+	clear:both;
+	color: #999;
+	text-decoration: none;
+	margin-left: 15px;
+	display: inline-block;
+	border-left: 1px solid #efefef;
+	padding-left: 15px;
+	line-height: 18px;
+}
+nav a:first-child {
+	border-left: 0 none;
+}
+
+footer {
+	background: #666;
+	color: #fff;
+	padding: 30px 0;
+	clear: both;
+	border-top: 8px solid #4aaaa5;
+	color: #ccc;
+	font-size: 12px;
+	text-align: center;
+}
+
+h3, h2 {
+	border-bottom: 2px solid #eee;
+	padding-bottom: 20px;
+	margin-bottom: 15px;
+	line-height: 22px;
+}
+
+label,
+input[type=text],
+input[type=email],
+textarea {
+	display: block;
+	width: 100%;
+}
+
+input[type=text],
+input[type=email],
+textarea {
+	height: 35px;
+	border: 1px solid #ddd;
+	padding: 0 10px;
+	font-size: 14px;
+}
+
+textarea {
+	height: 200px;
+}
+
+input[type=submit] {
+	background: #4aaaa5;
+	border: 0 none;
+	color: #fff;
+	font-size: 18px;
+	padding: 10px 30px;
+	cursor: pointer;
+}
