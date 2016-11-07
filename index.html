@@ -45,22 +45,130 @@
 	
 </head>
 <body>
+<script type="text/javascript">
+	document.onkeyup = function(event) {
+    ///alert("button presssed");
+    //console.log(event.key);
+    document.write("You pressed: " + event.key)
+    document.write("<br>Done");
+
+    if (event.key === "e"){
+    	console.log("you pressed e"); 
+		document.write("<br>e");
+    }
+    else if(event.key === "a"){
+     	console.log("you pressed a"); 
+		document.write("<br>a");
+    }
+    else if(event.key === "i"){
+    	console.log("you pressed i"); 
+		document.write("<br>i");
+    }
+    
+    else if(event.key === "o"){
+    	console.log("you pressed o"); 
+		document.write("<br>0");
+    }
+    
+    else{
+
+        }
+    }
+</script>
 <h1 class="heading animated bounceInDown" >Star Trek Hang Man</h1>
+<!-- ---------------------------------- 1 --------------------------------------- -->
+	<div class="container-fluid">
+		<div class="row" >
+			<div class="col-md-3"></div>
+
+			 <div class="col-md-6">
+				<div>  Press any key to start</div>
+			</div>
+
+			  <div class="col-md-3"></div>
+		</div>
+
+	<!-- ------------------------------------------------------------------------- -->
+
+<!-- ---------------------------------- 2 --------------------------------------- -->
 	<div class="container-fluid">
 		<div class="row" >
 
+		  <div class="col-md-3"></div>
+			  <div class="col-md-3">
+				<div>Wins: </div>
+			  </div>
+			  <div class="col-md-3">
+				<div>0</div>
+			  </div>
+		  <div class="col-md-3"></div>
+
+		</div>
+	</div>
+	<!-- ------------------------------------------------------------------------- -->
+<!-- ---------------------------------- 3 --------------------------------------- -->
+	<div class="container-fluid">
+		<div class="row" >
+
+			<div class="col-md-3"></div>
+			 	<div class="col-md-3">
+					<div>Current word: </div>
+			  	</div>
+			  	<div class="col-md-3">
+					<div>_ _ _ _ _ </div>
+			  	</div>
+			  <div class="col-md-3"></div>
+		</div>
+	</div>
+	<!-- ------------------------------------------------------------------------- -->
+	<!-- ---------------------------------- 4 --------------------------------------- -->
+	<div class="container-fluid">
+		<div class="row" >
+		  <div class="col-md-3"></div>
+		  <div class="col-md-3">
+			<div>Guesses Remaining: </div>
+		  </div>
+
+		  <div class="col-md-3">
+			<div>12</div>
+		  </div>
+
+		  <div class="col-md-3"></div>
+
+		</div>
+	</div>
+	<!-- ------------------------------------------------------------------------- -->
+	<!-- ---------------------------------- 5 --------------------------------------- -->
+	<div class="container-fluid">
+		<div class="row" >
+			  <div class="col-md-3"></div>
+			  <div class="col-md-3">
+				<div>Letters Already Guessed:</div>
+			  </div>
+			  <div class="col-md-3">
+				<div>None yet</div>
+			  </div>
+			  <div class="col-md-3"></div>
 
 
+		</div>
+	</div>
+	<!-- ------------------------------------------------------------------------- -->
+	<!-- ---------------------------------- 6 --------------------------------------- -->
+	<div class="container-fluid">
+		<div class="row" >
 			<div class="row">
-			  <div class="col-md-4">Item One</div>
-			  <div class="col-md-4">Item Two</div>
-			  <div class="col-md-4">Item Three</div>
+			  <div class="col-md-3"></div>
+			  <div class="col-md-6">
+				<div>====================</div>
+			  </div>
+			  <div class="col-md-3"></div>
 			</div>
 
 		</div>
-
 	</div>
-	
+	<!-- ------------------------------------------------------------------------- -->
+		
 </body>
 </html>
 
