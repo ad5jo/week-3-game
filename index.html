@@ -31,16 +31,13 @@
 	<link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
  -->
 
-
-
-
-
 	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
 	<!-- <link rel="stylesheet" type="text/css" href="assets/css/style.css"> -->
 	<link rel="stylesheet" type="text/css" href="assets/css/style_primatives.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/style_id.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/style_class.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/style_media.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/style_hangman.css">
 
 	
 </head>
@@ -49,8 +46,8 @@
 	document.onkeyup = function(event) {
     ///alert("button presssed");
     //console.log(event.key);
-    document.write("You pressed: " + event.key)
-    document.write("<br>Done");
+    //document.write("You pressed: " + event.key)
+    //document.write("<br>Done");
 
     if (event.key === "e"){
     	console.log("you pressed e"); 
@@ -66,95 +63,120 @@
     }
     
     else if(event.key === "o"){
-    	console.log("you pressed o"); 
-		document.write("<br>0");
+    	// console.log("you pressed o"); 
+		//document.write("<br> about to call function " + event.key);
+		win_up();
     }
     
     else{
 
         }
     }
+
+
+    var a_game_data ={
+    	wins:"0",
+    	m_win_up: function() {
+          var i_wins = parseInt(this.wins);
+          i_wins ++;
+          this.wins = i_wins.toString();
+        }
+    }
+
+    function win_up (){
+    	// to use the function: win_up();
+      a_game_data.m_win_up();
+      document.getElementById("wins_data").innerHTML = a_game_data.wins;
+    }
+
+
+
+
 </script>
+
 <h1 id = "STARTREK_TITLE" >Star Trek Hang Man</h1>
 <!-- class="heading animated bounceInDown" -->
 <!-- ---------------------------------- 1 --------------------------------------- -->
+
 	<div class="container-fluid">
 		<div class="row" >
 			<div class="col-md-3"></div>
 
 			 <div class="col-md-6">
-				<div>  Press any key to start</div>
+				<div id="press_any_key_to_start">  Press any key to start</div>
 			</div>
 
 			  <div class="col-md-3"></div>
 		</div>
 
-	<!-- ------------------------------------------------------------------------- -->
+	<!-- ---------------------------------------------------------------------------- -->
 
-<!-- ---------------------------------- 2 --------------------------------------- -->
+	<!-- ---------------------------------- 2 --------------------------------------- -->
 	<div class="container-fluid">
 		<div class="row" >
 
 		  <div class="col-md-3"></div>
 			  <div class="col-md-3">
-				<div>Wins: </div>
+				<div id="wins">Wins: </div>
 			  </div>
 			  <div class="col-md-3">
-				<div>0</div>
+				<div id="wins_data">0</div>
 			  </div>
 		  <div class="col-md-3"></div>
 
 		</div>
 	</div>
-	<!-- ------------------------------------------------------------------------- -->
-<!-- ---------------------------------- 3 --------------------------------------- -->
+	<!-- ---------------------------------------------------------------------------- -->
+
+	<!-- ---------------------------------- 3 --------------------------------------- -->
 	<div class="container-fluid">
 		<div class="row" >
 
 			<div class="col-md-3"></div>
 			 	<div class="col-md-3">
-					<div>Current word: </div>
+					<div id="current_word" >Current word: </div>
 			  	</div>
 			  	<div class="col-md-3">
-					<div>_ _ _ _ _ </div>
+					<div id="current_word_data" >_ _ _ _ _ </div>
 			  	</div>
 			  <div class="col-md-3"></div>
 		</div>
 	</div>
-	<!-- ------------------------------------------------------------------------- -->
+	<!-- ---------------------------------------------------------------------------- -->
+
 	<!-- ---------------------------------- 4 --------------------------------------- -->
 	<div class="container-fluid">
 		<div class="row" >
 		  <div class="col-md-3"></div>
 		  <div class="col-md-3">
-			<div>Guesses Remaining: </div>
+			<div id="guesses_remaining">Guesses Remaining: </div>
 		  </div>
 
 		  <div class="col-md-3">
-			<div>12</div>
+			<div  id="guesses_remaining_data" >12</div>
 		  </div>
 
 		  <div class="col-md-3"></div>
 
 		</div>
 	</div>
-	<!-- ------------------------------------------------------------------------- -->
+	<!-- ---------------------------------------------------------------------------- -->
 	<!-- ---------------------------------- 5 --------------------------------------- -->
 	<div class="container-fluid">
 		<div class="row" >
 			  <div class="col-md-3"></div>
 			  <div class="col-md-3">
-				<div>Letters Already Guessed:</div>
+				<div id="letters_already_guessed" >Letters Already Guessed:</div>
 			  </div>
 			  <div class="col-md-3">
-				<div>None yet</div>
+				<div id="letters_already_guessed_data">None yet</div>
 			  </div>
 			  <div class="col-md-3"></div>
 
 
 		</div>
 	</div>
-	<!-- ------------------------------------------------------------------------- -->
+	<!-- ---------------------------------------------------------------------------- -->
 	<!-- ---------------------------------- 6 --------------------------------------- -->
 	<div class="container-fluid">
 		<div class="row" >
