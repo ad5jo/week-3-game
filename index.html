@@ -43,6 +43,50 @@
 </head>
 <body>
 <script type="text/javascript">
+    var a_game_data ={
+    	i_wins: 0,
+    	i_guesses_remaining:0,
+    	i_found:0,
+    	i_word_length:0,
+    	i_letters_guessed_lenght: 0,
+    	i_letters_in_word_length: 0,
+    	s_word:" ",
+    	b_won_current_game: false,
+    	b_game_over: true,
+    	a_letters_guessed: [],
+    	a_letters_in_word:[],
+    	a_word_list:["enterpise", "klingon", "kirk", "spock", "bones"],
+    	
+    	m_win_up: function() {
+          var i_wins = parseInt(this.wins);
+          i_wins ++;
+          this.wins = i_wins.toString();
+        },
+
+        m_reset_for_new_game: function() {
+          this.i_guesses_remaining = 12;
+          this.i_found = 0;
+          this.s_word = " ";
+          this.i_word_length = this.s_word.length;
+          
+          this.i_letters_guessed_lenght = false;
+          this.i_letters_in_word_length = false;
+          this.a_letters_guessed = false;
+          this.a_letters_in_word = false;
+
+        },
+        m_assign_a_new_word: function() {
+        	var i_word_list_length = this.a_word_list.length;
+          var i_random_number = Math.floor((Math.random() * i_word_list_length) );
+          this.s_word = this.a_word_list[i_random_number];
+          this.i_word_length =this.s_word.lenght;
+        },
+
+
+
+    } // end of a_game_data
+
+
 	document.onkeyup = function(event) {
     ///alert("button presssed");
     //console.log(event.key);
@@ -74,14 +118,7 @@
     }
 
 
-    var a_game_data ={
-    	wins:"0",
-    	m_win_up: function() {
-          var i_wins = parseInt(this.wins);
-          i_wins ++;
-          this.wins = i_wins.toString();
-        }
-    }
+
 
     function win_up (){
     	// to use the function: win_up();
