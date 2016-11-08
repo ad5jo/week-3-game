@@ -1,0 +1,43 @@
+
+
+#masthead {
+	background: #fff;
+	margin: 0 0 30px;
+	z-index: 99;
+	color: #fff;
+	overflow: auto;
+	border-bottom: 2px solid #ccc;
+	position: fixed;
+	width: 100%;
+}
+
+
+#logo {
+	width: 250px;
+	height: 90px;
+	background: #4aaaa5;
+	float: left;
+	font-family: 'Georgia', Times, Times New Roman, serif;
+	text-align: center;
+	line-height: 90px;
+	color: #fff;
+	font-weight: 700;
+	font-size: 30px;
+	text-decoration: none;
+}
+
+#_640_nav_bar
+{
+	/*margin:5px;*/
+}
+
+#main-container {
+	padding-top: 130px;
+}
+
+#contact-form ul {
+	margin-bottom: 20px;
+}
+#contact-form li {
+	margin-bottom: 10px;
+}
