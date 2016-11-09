@@ -69,16 +69,20 @@
           this.i_guesses_remaining = 12;
           this.i_found = 0;
           this.s_word = "F";
+          this.m_assign_a_new_word();
           this.i_word_length = this.s_word.length;
           console.log("New i_word_length: " + this.i_word_length.toString());
           this.i_letters_guessed_lenght = false;
           this.i_letters_in_word_length = false;
           this.a_letters_guessed = [];
           this.a_letters_in_word = [];
+          this.b_game_over = false;
           console.log("New s_word: " + this.s_word);
         },
 
         m_assign_a_new_word: function() {
+        	// don't call this directly
+        	// this is for use inside  the game_data object
         	var i_word_list_length = this.a_word_list.length;
         	var i_random_number = Math.floor((Math.random() * i_word_list_length) );
         	this.s_word = this.a_word_list[i_random_number];
@@ -100,6 +104,28 @@
         	return s_osei;
         },
 
+		m_re_encode_word: function() {
+			// not done yet
+			//var i_length = this.s_word.length;
+        	for(var i = 0; i < this.i_word_length; i++)
+        	{
+        		this.s_word_hidden = this.s_word_hidden + "_ "
+        	}
+        },
+
+		m_update_screen: function() {
+        	
+        },
+		m_play: function() {
+        	this.i_guesses_remaining--;
+
+        	if (this.i_guesses_remaining === 0)
+        	{
+        		this.b_game_over = true;
+        	}
+        	
+        },
+
 		b_dummy: true,
 
 
@@ -114,15 +140,13 @@
     {
 		//document.getElementById("press_any_key_to_start").innerHTML = a_game_data.m_assign_a_new_osei;
 		a_game_data.m_reset_for_new_game();
-		a_game_data.m_assign_a_new_word();
 		document.getElementById("press_any_key_to_start").innerHTML = "You can do this!";
-		//a_game_data.m_assign_a_new_osei();
     }
 
     else if (a_game_data.b_game_over === true)
     {
     	document.getElementById("press_any_key_to_start").innerHTML = a_game_data.m_assign_a_new_osei();
-    	a_game_data.play();
+    	a_game_data.m_play();
     }
 //<!-- ---------------------------------- MAIN LOOP end --------------------------------------- -->
 
@@ -178,8 +202,27 @@
     	document.getElementById("press_any_key_to_start").innerHTML = s_word;
     }
 
+var i_numb = count_str_in_string("toastasa","a");
+console.log("BOOM! i_numb: " + i_numb.toString());
 
-//press_any_key_to_start
+
+
+<!-- ------------------------------------------------------ -->
+function count_str_in_string(s_input,s_to_find)
+{
+	var i_return_val = 0;
+	var i_len = s_input.length;
+
+	for(var i = 0; i < i_len; i++)
+	{
+		if (s_input.substring(i,i+1) === s_to_find)
+		{
+			i_return_val++;
+		}
+	}
+	return i_return_val;
+}
+<!-- ------------------------------------------------------ -->
 
 </script>
 
