@@ -51,6 +51,7 @@
     	i_letters_guessed_lenght: 0,
     	i_letters_in_word_length: 0,
     	s_word:" ",
+    	s_word_hidden:"_",
     	b_won_current_game: false,
     	b_game_over: true,
     	a_letters_guessed: [],
@@ -58,30 +59,36 @@
     	a_word_list:["enterpise", "klingon", "kirk", "spock", "bones"],
     	
     	m_win_up: function() {
-          var i_wins = parseInt(this.wins);
-          i_wins ++;
-          this.wins = i_wins.toString();
+          this.i_wins ++;
         },
 
         m_reset_for_new_game: function() {
           this.i_guesses_remaining = 12;
           this.i_found = 0;
-          this.s_word = " ";
+          this.s_word = "F";
           this.i_word_length = this.s_word.length;
-          
+          console.log("New i_word_length: " + this.i_word_length.toString());
           this.i_letters_guessed_lenght = false;
           this.i_letters_in_word_length = false;
-          this.a_letters_guessed = false;
-          this.a_letters_in_word = false;
-
+          this.a_letters_guessed = [];
+          this.a_letters_in_word = [];
+          console.log("New s_word: " + this.s_word);
         },
+
         m_assign_a_new_word: function() {
         	var i_word_list_length = this.a_word_list.length;
-          var i_random_number = Math.floor((Math.random() * i_word_list_length) );
-          this.s_word = this.a_word_list[i_random_number];
-          this.i_word_length =this.s_word.lenght;
+        	var i_random_number = Math.floor((Math.random() * i_word_list_length) );
+        	this.s_word = this.a_word_list[i_random_number];
+        	console.log("New word: " + this.s_word);
+        	this.i_word_length =this.s_word.length;
+        	console.log("New length: " + this.i_word_length.toString() );
+        	this.s_word_hidden ="";
+        	for(var i = 0; i < this.i_word_length; i++)
+        	{
+        		this.s_word_hidden = this.s_word_hidden + "_ "
+        	}
         },
-
+		b_dummy: true,
 
 
     } // end of a_game_data
@@ -89,24 +96,28 @@
 
 	document.onkeyup = function(event) {
     ///alert("button presssed");
-    //console.log(event.key);
+    console.log("Button: " + event.key);
     //document.write("You pressed: " + event.key)
     //document.write("<br>Done");
 
-    if (event.key === "e"){
-    	console.log("you pressed e"); 
-		document.write("<br>e");
+    if (event.key === "1"){
+    	a_game_data.m_win_up();
+    	document.getElementById("wins_data").innerHTML = a_game_data.i_wins.toString();
+    	//console.log("you pressed e"); 
+		//document.write("<br>e");
     }
-    else if(event.key === "a"){
-     	console.log("you pressed a"); 
-		document.write("<br>a");
+    else if(event.key === "2"){
+    	a_game_data.m_assign_a_new_word();
+    	up_date_display_of_word();
+
+     	//console.log("you pressed a"); 
+		//document.write("<br>a");
     }
-    else if(event.key === "i"){
-    	console.log("you pressed i"); 
-		document.write("<br>i");
+    else if(event.key === "3"){
+    	a_game_data.m_reset_for_new_game();
     }
     
-    else if(event.key === "o"){
+    else if(event.key === "4"){
     	// console.log("you pressed o"); 
 		//document.write("<br> about to call function " + event.key);
 		win_up();
@@ -123,11 +134,22 @@
     function win_up (){
     	// to use the function: win_up();
       a_game_data.m_win_up();
-      document.getElementById("wins_data").innerHTML = a_game_data.wins;
+      document.getElementById("wins_data").innerHTML = a_game_data.i_wins.toString();
     }
 
 
+	function up_date_display_of_word (){
+    	var s_word = a_game_data.s_word_hidden;
+    	document.getElementById("word_data").innerHTML = s_word;
+    }
 
+	function up_date_game_status (){
+    	var s_word = a_game_data.s_word_hidden;
+    	document.getElementById("press_any_key_to_start").innerHTML = s_word;
+    }
+
+
+//press_any_key_to_start
 
 </script>
 
@@ -140,7 +162,7 @@
 			<div class="col-md-3"></div>
 
 			 <div class="col-md-6">
-				<div id="press_any_key_to_start">  Press any key to start</div>
+				<div id="press_any_key_to_start">Press any key to start</div>
 			</div>
 
 			  <div class="col-md-3"></div>
@@ -174,7 +196,7 @@
 					<div id="current_word" >Current word: </div>
 			  	</div>
 			  	<div class="col-md-3">
-					<div id="current_word_data" >_ _ _ _ _ </div>
+					<div id="word_data" id="current_word_data" >_ _ _ _ _ </div>
 			  	</div>
 			  <div class="col-md-3"></div>
 		</div>
