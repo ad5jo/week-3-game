@@ -53,10 +53,13 @@
     	s_word:" ",
     	s_word_hidden:"_",
     	b_won_current_game: false,
+    	b_debug_mode: true,
     	b_game_over: true,
     	a_letters_guessed: [],
     	a_letters_in_word:[],
-    	a_word_list:["enterpise", "klingon", "kirk", "spock", "bones"],
+    	a_word_list:["enterpise", "klingon", "kirk", "spock", "bones","bajoran", "barclay","cardassian","stardate","dilithium","synthehol","picard","transporter","vulcan","warp"],
+    	
+    	a_oseiisms_list:["show me your code", "you can do this", "i bake cookies", "pop-bamb", "i dance hip-hop","now for something really strange", "slack me","i'll be at whole foods","meet at a public place to code in a group","ask me questions"],
     	
     	m_win_up: function() {
           this.i_wins ++;
@@ -88,15 +91,42 @@
         		this.s_word_hidden = this.s_word_hidden + "_ "
         	}
         },
+
+		m_assign_a_new_osei: function() {
+        	var i_word_list_length = this.a_oseiisms_list.length;
+        	var i_random_number = Math.floor((Math.random() * i_word_list_length) );
+        	s_osei = this.a_oseiisms_list[i_random_number];
+        	console.log("osie phrase: " + s_osei);
+        	return s_osei;
+        },
+
 		b_dummy: true,
 
 
     } // end of a_game_data
 
-
+//<!-- ---------------------------------- MAIN LOOP begin --------------------------------------- -->
 	document.onkeyup = function(event) {
     ///alert("button presssed");
     console.log("Button: " + event.key);
+
+    if (a_game_data.b_game_over === false)
+    {
+		//document.getElementById("press_any_key_to_start").innerHTML = a_game_data.m_assign_a_new_osei;
+		a_game_data.m_reset_for_new_game();
+		a_game_data.m_assign_a_new_word();
+		document.getElementById("press_any_key_to_start").innerHTML = "You can do this!";
+		//a_game_data.m_assign_a_new_osei();
+    }
+
+    else if (a_game_data.b_game_over === true)
+    {
+    	document.getElementById("press_any_key_to_start").innerHTML = a_game_data.m_assign_a_new_osei();
+    	a_game_data.play();
+    }
+//<!-- ---------------------------------- MAIN LOOP end --------------------------------------- -->
+
+
     //document.write("You pressed: " + event.key)
     //document.write("<br>Done");
 
@@ -159,13 +189,13 @@
 
 	<div class="container-fluid">
 		<div class="row" >
-			<div class="col-md-3"></div>
+			<div class="col-md-4"></div>
 
-			 <div class="col-md-6">
+			 <div class="col-md-4">
 				<div id="press_any_key_to_start">Press any key to start</div>
 			</div>
 
-			  <div class="col-md-3"></div>
+			  <div class="col-md-4"></div>
 		</div>
 
 	<!-- ---------------------------------------------------------------------------- -->
@@ -242,7 +272,37 @@
 			<div class="row">
 			  <div class="col-md-3"></div>
 			  <div class="col-md-6">
-				<div>====================</div>
+				<div>========================================</div>
+			  </div>
+			  <div class="col-md-3"></div>
+			</div>
+
+		</div>
+	</div>
+	<!-- ------------------------------------------------------------------------- -->
+
+	<!-- ---------------------------------- 7 --------------------------------------- -->
+	<div class="container-fluid">
+		<div class="row" >
+			<div class="row">
+			  <div class="col-md-3"></div>
+			  <div class="col-md-6">
+				<div>mode</div>
+			  </div>
+			  <div class="col-md-3"></div>
+			</div>
+
+		</div>
+	</div>
+	<!-- ------------------------------------------------------------------------- -->
+
+	<!-- ---------------------------------- 8 --------------------------------------- -->
+	<div class="container-fluid">
+		<div class="row" >
+			<div class="row">
+			  <div class="col-md-3"></div>
+			  <div class="col-md-6">
+				<div>========================================</div>
 			  </div>
 			  <div class="col-md-3"></div>
 			</div>
