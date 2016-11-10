@@ -4,6 +4,11 @@
 	<title>Dave Durkee</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=320, initial-scale=1">
+	
+<!-- 
+GET https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css 
+net::ERR_INTERNET_DISCONNECTED
+-->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -52,6 +57,7 @@
     	i_letters_in_word_length: 0,
     	s_word:" ",
     	s_word_hidden:"_",
+    	s_letters_guessed: "",
     	b_won_current_game: false,
     	b_debug_mode: true,
     	b_game_over: true,
@@ -72,8 +78,9 @@
           this.m_assign_a_new_word();
           this.i_word_length = this.s_word.length;
           console.log("New i_word_length: " + this.i_word_length.toString());
-          this.i_letters_guessed_lenght = false;
-          this.i_letters_in_word_length = false;
+          //this.i_letters_guessed_lenght = 0;
+          //this.i_letters_in_word_length = 0;
+          this.s_letters_guessed = "";
           this.a_letters_guessed = [];
           this.a_letters_in_word = [];
           this.b_game_over = false;
@@ -89,14 +96,24 @@
         	console.log("New word: " + this.s_word);
         	this.i_word_length =this.s_word.length;
         	console.log("New length: " + this.i_word_length.toString() );
-        	this.s_word_hidden ="";
+        	this.s_word_hidden = "";
         	for(var i = 0; i < this.i_word_length; i++)
         	{
         		this.s_word_hidden = this.s_word_hidden + "_ "
+        		var s_letter = this.s_word.substring(i, i + 1);
+        		this.a_letters_in_word.push(s_letter);
+        	}
+        	console.log("The word array contains");
+        	for(var i = 0; i < this.i_word_length; i++)
+        	{
+        		console.log("# " + i.toString());
+        		s_letter = this.a_letters_in_word[i];
+        		console.log(s_letter);
+
         	}
         },
 
-		m_assign_a_new_osei: function() {
+		m_assign_a_new_osei: function() {	// finished
         	var i_word_list_length = this.a_oseiisms_list.length;
         	var i_random_number = Math.floor((Math.random() * i_word_list_length) );
         	s_osei = this.a_oseiisms_list[i_random_number];
@@ -104,49 +121,128 @@
         	return s_osei;
         },
 
-		m_re_encode_word: function() {
+		m_re_encode_word: function(s_key) {
 			// not done yet
 			//var i_length = this.s_word.length;
-        	for(var i = 0; i < this.i_word_length; i++)
-        	{
-        		this.s_word_hidden = this.s_word_hidden + "_ "
-        	}
+			console.log("m_re_encode_word");
+			this.s_word_hidden = "";
+			var i_index = this.s_word.indexOf(s_key);
+			while (i_index > -1)
+			{
+				for(var i = 0; i < this.i_word_length; i++)
+        			{
+        			if (i === i_index)
+        			{
+        				this.s_word_hidden = this.s_word_hidden + s_key + " ";
+        			}
+        			else
+        			{
+        				this.s_word_hidden = this.s_word_hidden + "_ ";
+        			}
+        			
+        			}
+				i_index = this.s_word.indexOf(s_key);
+			}
+			console.log("Done in m_re_encode_word");
+
+        	// 
         },
 
 		m_update_screen: function() {
-        	
-        },
-		m_play: function() {
-        	this.i_guesses_remaining--;
+        	//
 
-        	if (this.i_guesses_remaining === 0)
-        	{
-        		this.b_game_over = true;
-        	}
-        	
         },
+
+        add_letter_to_used_list: function (s_key) // finished
+        {
+        	this.a_letters_guessed.push(s_key);
+        },
+
+        add_letter_to_used_string: function (s_key) // finished
+        {
+        	this.s_letters_guessed = this.s_letters_guessed + s_key + " ";
+        },
+
+        count_number_of_times_the_letter_is_in_the_word: function (s_key)	// not done
+        {
+        	var i_return_val = 0;
+        	var i_numb = count_str_in_string(this.s_letters_guessed,s_key);
+        	return i_return_val;
+        },
+
+        was_letter_used: function (s_key)// not done
+        {
+        	var b_return_value = false;
+
+        	var i_index = this.a_letters_in_word.indexOf();
+        	if (i_index > -1)
+        	{
+        		b_return_value = true;
+        	}
+        	return b_return_value;
+        },
+
+        add_4: function (s_key)// not done
+        {
+
+        },
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//													m_play 													//
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+		m_play: function(s_key) {
+        	//this.i_guesses_remaining--;
+        	var b_result = this.was_letter_used(s_key);
+        	if (b_result === true){
+        		return;}
+			this.i_guesses_remaining--;
+			document.getElementById("guesses_remaining_data").innerHTML = this.i_guesses_remaining.toString();	// C
+			this.add_letter_to_used_list(s_key);
+			this.add_letter_to_used_string(s_key);
+			document.getElementById("letters_already_guessed_data").innerHTML = this.s_letters_used;	// D
+			var i_numb_found = count_number_of_times_the_letter_is_in_the_word(this.s_word,s_key)
+			this.i_found = this.i_found + i_numb_found;
+			this.m_re_encode_word();
+			document.getElementById("current_word_data").innerHTML = this.s_word_hidden;	// B
+			if (this.i_word_length == this.i_found)
+			{
+				win_up();
+				this.b_game_over = true;
+				document.getElementById("press_any_key_to_start").innerHTML = "You won!";
+				a_game_data.m_reset_for_new_game();
+			}
+			return;
+        },	// END of m_play: function
 
 		b_dummy: true,
-
-
     } // end of a_game_data
 
 //<!-- ---------------------------------- MAIN LOOP begin --------------------------------------- -->
 	document.onkeyup = function(event) {
     ///alert("button presssed");
     console.log("Button: " + event.key);
-
-    if (a_game_data.b_game_over === false)
-    {
-		//document.getElementById("press_any_key_to_start").innerHTML = a_game_data.m_assign_a_new_osei;
-		a_game_data.m_reset_for_new_game();
-		document.getElementById("press_any_key_to_start").innerHTML = "You can do this!";
-    }
+    if(event.key === "2"){
+    	console.log("2 pressed");
+		a_game_data.m_assign_a_new_word();
+		up_date_display_of_word();
+	}
 
     else if (a_game_data.b_game_over === true)
     {
+		//document.getElementById("press_any_key_to_start").innerHTML = a_game_data.m_assign_a_new_osei;
+		a_game_data.m_reset_for_new_game();
+		document.getElementById("press_any_key_to_start").innerHTML = "Press key Play";
+		a_game_data.b_game_over = false;
+    }
+
+    else if (a_game_data.b_game_over === false)
+    {
+    	// Update Displey with an OSEI-ism
     	document.getElementById("press_any_key_to_start").innerHTML = a_game_data.m_assign_a_new_osei();
-    	a_game_data.m_play();
+    	a_game_data.m_play(event.key);
     }
 //<!-- ---------------------------------- MAIN LOOP end --------------------------------------- -->
 
@@ -154,38 +250,39 @@
     //document.write("You pressed: " + event.key)
     //document.write("<br>Done");
 
-    if (event.key === "1"){
-    	a_game_data.m_win_up();
-    	document.getElementById("wins_data").innerHTML = a_game_data.i_wins.toString();
-    	//console.log("you pressed e"); 
-		//document.write("<br>e");
-    }
-    else if(event.key === "2"){
-    	a_game_data.m_assign_a_new_word();
-    	up_date_display_of_word();
+  //   if (event.key === "1"){
+  //   	a_game_data.m_win_up();
+  //   	document.getElementById("wins_data").innerHTML = a_game_data.i_wins.toString();
+  //   	//console.log("you pressed e"); 
+		// //document.write("<br>e");
+  //   }
+  //   else if(event.key === "2"){
+  //   	a_game_data.m_assign_a_new_word();
+  //   	up_date_display_of_word();
 
-     	//console.log("you pressed a"); 
-		//document.write("<br>a");
-    }
-    else if(event.key === "3"){
-    	a_game_data.m_reset_for_new_game();
-    }
+  //    	//console.log("you pressed a"); 
+		// //document.write("<br>a");
+  //   }
+  //   else if(event.key === "3"){
+  //   	a_game_data.m_reset_for_new_game();
+  //   }
     
-    else if(event.key === "4"){
-    	// console.log("you pressed o"); 
-		//document.write("<br> about to call function " + event.key);
-		win_up();
-    }
+  //   else if(event.key === "4"){
+  //   	// console.log("you pressed o"); 
+		// //document.write("<br> about to call function " + event.key);
+		// win_up();
+  //   }
     
-    else{
+  //   else{
 
-        }
+  //       }
     }
 
 
 
 
-    function win_up (){
+
+    function win_up (){	// this is used
     	// to use the function: win_up();
       a_game_data.m_win_up();
       document.getElementById("wins_data").innerHTML = a_game_data.i_wins.toString();
