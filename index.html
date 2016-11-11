@@ -122,26 +122,35 @@ net::ERR_INTERNET_DISCONNECTED
         },
 
 		m_re_encode_word: function(s_key) {
-			// not done yet
+			console.log("s_key: " + s_key);
 			//var i_length = this.s_word.length;
+			var i_safe = 15;
 			console.log("m_re_encode_word");
 			this.s_word_hidden = "";
 			var i_index = this.s_word.indexOf(s_key);
+			console.log("i_index: " + i_index.toString());
 			while (i_index > -1)
 			{
+				console.log("i_index: " + i_index.toString());
 				for(var i = 0; i < this.i_word_length; i++)
         			{
-        			if (i === i_index)
-        			{
-        				this.s_word_hidden = this.s_word_hidden + s_key + " ";
-        			}
-        			else
-        			{
-        				this.s_word_hidden = this.s_word_hidden + "_ ";
-        			}
+        				console.log("i: " + i.toString());
+        				if (i === i_index)
+        				{
+        					this.s_word_hidden = this.s_word_hidden + s_key + " ";
+        				}
+        				else
+        				{
+        					this.s_word_hidden = this.s_word_hidden + "_ ";
+        				}
         			
         			}
 				i_index = this.s_word.indexOf(s_key);
+				i_safe--;
+				if (i_safe >=0)
+				{
+					i_index = -10;
+				}
 			}
 			console.log("Done in m_re_encode_word");
 
@@ -165,8 +174,10 @@ net::ERR_INTERNET_DISCONNECTED
 
         count_number_of_times_the_letter_is_in_the_word: function (s_key)	// not done
         {
+        	console.log("Entered count_number_of_times_the_letter_is_in_the_word");
         	var i_return_val = 0;
         	var i_numb = count_str_in_string(this.s_letters_guessed,s_key);
+        	console.log("leaving count_number_of_times_the_letter_is_in_the_word " + i_numb.toString());
         	return i_return_val;
         },
 
@@ -203,10 +214,13 @@ net::ERR_INTERNET_DISCONNECTED
 			this.add_letter_to_used_list(s_key);
 			this.add_letter_to_used_string(s_key);
 			document.getElementById("letters_already_guessed_data").innerHTML = this.s_letters_used;	// D
-			var i_numb_found = count_number_of_times_the_letter_is_in_the_word(this.s_word,s_key)
+			console.log("---------------------------------------------  D ");
+			var i_numb_found = this.count_number_of_times_the_letter_is_in_the_word(this.s_word,s_key)
 			this.i_found = this.i_found + i_numb_found;
-			this.m_re_encode_word();
+			this.m_re_encode_word(s_key);
+			console.log("this.s_word_hidden is " + this.s_word_hidden);
 			document.getElementById("current_word_data").innerHTML = this.s_word_hidden;	// B
+			console.log("---------------------------------------------  B ");
 			if (this.i_word_length == this.i_found)
 			{
 				win_up();
@@ -242,7 +256,15 @@ net::ERR_INTERNET_DISCONNECTED
     {
     	// Update Displey with an OSEI-ism
     	document.getElementById("press_any_key_to_start").innerHTML = a_game_data.m_assign_a_new_osei();
+
+
+
+
+
     	a_game_data.m_play(event.key);
+
+
+
     }
 //<!-- ---------------------------------- MAIN LOOP end --------------------------------------- -->
 
