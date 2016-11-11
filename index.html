@@ -164,6 +164,7 @@ net::ERR_INTERNET_DISCONNECTED
 
         add_letter_to_used_list: function (s_key) // finished
         {
+        	console.log("entered add_letter_to_used_list");
         	this.a_letters_guessed.push(s_key);
         },
 
@@ -176,7 +177,8 @@ net::ERR_INTERNET_DISCONNECTED
         {
         	console.log("Entered count_number_of_times_the_letter_is_in_the_word");
         	var i_return_val = 0;
-        	var i_numb = count_str_in_string(this.s_letters_guessed,s_key);
+        	var i_return_val = count_str_in_string(this.a_letters_in_word,s_key);
+
         	console.log("leaving count_number_of_times_the_letter_is_in_the_word " + i_numb.toString());
         	return i_return_val;
         },
@@ -185,7 +187,8 @@ net::ERR_INTERNET_DISCONNECTED
         {
         	var b_return_value = false;
 
-        	var i_index = this.a_letters_in_word.indexOf(s_key);
+        	//var i_index = this.a_letters_in_word.indexOf(s_key);
+        	var i_index = this.s_letters_guessed.indexOf(s_key);
         	if (i_index > -1)
         	{
         		b_return_value = true;
@@ -235,6 +238,7 @@ net::ERR_INTERNET_DISCONNECTED
 				document.getElementById("press_any_key_to_start").innerHTML = "You won!";
 				a_game_data.m_reset_for_new_game();
 			}
+			else if (this.i_guesses_remaining < 1) { this.b_game_over = true; }
 			return;
         },	// END of m_play: function
 
