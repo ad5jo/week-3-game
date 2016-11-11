@@ -185,7 +185,7 @@ net::ERR_INTERNET_DISCONNECTED
         {
         	var b_return_value = false;
 
-        	var i_index = this.a_letters_in_word.indexOf();
+        	var i_index = this.a_letters_in_word.indexOf(s_key);
         	if (i_index > -1)
         	{
         		b_return_value = true;
@@ -206,6 +206,7 @@ net::ERR_INTERNET_DISCONNECTED
 
 		m_play: function(s_key) {
         	//this.i_guesses_remaining--;
+        	//console.API.clear(); not working
         	var b_result = this.was_letter_used(s_key);
         	if (b_result === true){
         		return;}
@@ -219,7 +220,13 @@ net::ERR_INTERNET_DISCONNECTED
 			this.i_found = this.i_found + i_numb_found;
 			this.m_re_encode_word(s_key);
 			console.log("this.s_word_hidden is " + this.s_word_hidden);
+
+
+
 			document.getElementById("current_word_data").innerHTML = this.s_word_hidden;	// B
+
+
+
 			console.log("---------------------------------------------  B ");
 			if (this.i_word_length == this.i_found)
 			{
@@ -313,7 +320,7 @@ net::ERR_INTERNET_DISCONNECTED
 
 	function up_date_display_of_word (){
     	var s_word = a_game_data.s_word_hidden;
-    	document.getElementById("word_data").innerHTML = s_word;
+    	document.getElementById("current_word_data").innerHTML = s_word;
     }
 
 	function up_date_game_status (){
@@ -388,7 +395,7 @@ function count_str_in_string(s_input,s_to_find)
 					<div id="current_word" >Current word: </div>
 			  	</div>
 			  	<div class="col-md-3">
-					<div id="word_data" id="current_word_data" >_ _ _ _ _ </div>
+					<div id="current_word_data" >_ _ _ _ _ </div>
 			  	</div>
 			  <div class="col-md-3"></div>
 		</div>
