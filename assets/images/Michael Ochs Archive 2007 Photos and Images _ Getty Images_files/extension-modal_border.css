@@ -1,0 +1,55 @@
+.pf-widget.pf-message.chrome-extension-modal {
+  width: 350px;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.pf-widget.pf-message.chrome-extension-modal .pf-widget-content {
+  text-align: left;
+  border:solid 1px #999999;
+}
+
+.pf-widget.pf-message.chrome-extension-modal .pf-widget-img {
+  width: 290px;
+  height: 41px;
+  border-radius: 0;
+  max-width: none;
+  left: 0;
+  margin: 0 30px;
+  bottom: 20px;
+  top: auto;
+}
+
+.pf-widget.pf-message.chrome-extension-modal .pf-widget-close {
+  font: 600 24px "HelveticaNeue-Bold", "Helvetica Neue Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.pf-widget.pf-message.chrome-extension-modal h2.pf-widget-headline {
+  font: 200 24px "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin-bottom: 10px;
+  line-height: 1;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 0;
+}
+
+.pf-widget.pf-message.chrome-extension-modal p.pf-widget-message {
+  font: 200 14px "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.pf-widget.pf-message.chrome-extension-modal .pf-widget-btn {
+  font: 500 18px "HelveticaNeue-CondensedBold", "HelveticaNeue-CondensedBold", "Helvetica Neue Condensed Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  text-align: center;
+  border-radius: 0;
+  letter-spacing: 1px;
+  width: 100%;
+  padding: 10px 0;
+  box-shadow: none;
+  margin-bottom: 44px;
+}
+
+.pf-widget.pf-message.chrome-extension-modal .pf-widget-close {
+  top: 5px;
+  right: 2px;
+}

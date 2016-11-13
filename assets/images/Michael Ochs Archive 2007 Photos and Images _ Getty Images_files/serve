@@ -1,0 +1,188 @@
+(function(){	try {		var tagContainer = document.createElement('div');		tagContainer.style.display = 'none';		tagContainer.innerHTML = '';		document.body.appendChild(tagContainer);		var tempScripts = tagContainer.getElementsByTagName('script');		for (var i = 0; i < tempScripts.length; i++) {
+			var newScript = document.createElement('script');
+			var s = tempScripts[i];
+			if (typeof s.src != "undefined" && s.src.length > 0) {
+				newScript.src = s.src
+			} else { 
+	    	    newScript.innerHTML = s.innerHTML;
+			}			document.body.appendChild(newScript);
+		}
+		document.body.appendChild(tagContainer);	} catch (e) {		/* don't blow anything up */	}})();(function() {
+    var windowHeight;
+    var windowWidth;
+
+    fireMessage("view_impression");
+    try {
+        windowHeight = (parent.window || window).innerHeight;
+        windowWidth = (parent.window || window).innerWidth;
+
+        startViewabilityScript();
+    }
+    catch(e) {
+        fireMessageWithError("view_untrackable", e.message);
+    }
+
+    function safeInt(s) {
+        if (s == "") {
+            return 0;
+        }
+
+        return parseInt(s);
+    }
+
+    function buildPayload(message) {
+        var payload = {};
+
+        payload.guid = "39be06bd-fe5a-48bd-861a-cc2302d006c0";
+        payload.ad_served_id = "7cfcf7fe-c67c-41d7-a09b-fbc4b65b7988";
+        payload.exchange_id = safeInt("110");
+        payload.advertiser_id = safeInt("10129");
+        payload.campaign_id = safeInt("");
+        payload.group_id = safeInt("");
+        payload.creative_id = safeInt("");
+        payload.domain = decodeURIComponent("http%3A%2F%2Fwww.gettyimages.com%2Fevent%2Fmichael-ochs-archive-2007-72825128");
+        payload.message = message;
+
+        return JSON.stringify(payload);
+    }
+
+    function fireMessage(eventType) {
+        fireMessageWithError(eventType, "");
+    }
+
+    function fireMessageWithError(eventType, message) {
+        var payload = buildPayload(message);
+        var url = "http://events.steelhousemedia.com/event/" + eventType + "?json=" + encodeURIComponent(payload);
+
+        var request = new XMLHttpRequest();
+        request.open("GET", url, true);
+        request.timeout = 1000;
+        request.setRequestHeader("Accept", "application/vnd.steelhouse-v1.0+json");
+        request.setRequestHeader("Content-Type", "application/vnd.steelhouse-v1.0+json");
+        request.send(null);
+    }
+
+    function startViewabilityScript() {
+        var adState = null;
+        var CHECK_INTERVAL = 100;
+        var VIEW_TIME_LENGTH = 1000;
+        var timeInView = 0;
+        var timeInViewTimer = null;
+        var targetDiv = null;
+        var ad = null;
+
+        var startTimer = setInterval(checkIfVisible, CHECK_INTERVAL);
+        var viewPercentToAdSizeMappings = [
+            {
+                threshold: 180000,
+                percent: 0.50 // 50% of the ad must be in view
+            },
+            {
+                threshold: 242500,
+                percent: 0.30 // 30% of the ad must be in view
+            }
+        ].sort(function(a, b) { return a.threshold > b.threshold });
+
+        function checkIfVisible() {
+            if (!targetDiv) {
+                targetDiv = document.getElementById('sh_target_7cfcf7fe-c67c-41d7-a09b-fbc4b65b7988');
+            }
+
+            if (!targetDiv) {
+                return;
+            }
+
+            if (!ad) {
+                ad = targetDiv.parentNode;
+            }
+
+            if (!ad) {
+                return;
+            }
+
+            // if Ad state is completed clear timer
+            if (adState == "COMPLETED") {
+                clearInterval(startTimer);
+            }
+
+            // if ad is "viewable" and has no state, start timeInViewTimer
+            if (isVisible() && !adState) {
+                adState = "STARTED";
+                timeInViewTimer = setInterval(function() {
+                    // Check timeInView is less than 1 second
+                    if (timeInView < VIEW_TIME_LENGTH){
+                        // Ad is no longer viewable, stop and reset timeInViewTimer
+                        if (!isVisible() && adState == "STARTED"){
+                            timeInView=0;
+                            adState = null;
+                            clearInterval(timeInViewTimer);
+                        }
+                        //Add interval to the time
+                        else{
+                            timeInView += CHECK_INTERVAL;
+                        }
+                    }
+                    // timeInView is 1 second or longer, mark the ad as "Viewable"
+                    else{
+                        fireMessage("view_viewed");
+                        adState = "COMPLETED";
+                        clearInterval(timeInViewTimer);
+                    }
+                }, CHECK_INTERVAL);
+            }
+        }
+
+        function isVisible() {
+            var adSizes = ad.getBoundingClientRect();
+            var top = adSizes.top;
+            var bottom = adSizes.bottom;
+            var left = adSizes.left;
+            var right = adSizes.right;
+            var adArea = adSizes.height * adSizes.width;
+            var visibleHeight= bottom - top;
+            var visibleWidth = right - left;
+            var visibleArea = (visibleHeight) * visibleWidth;
+            var minPercentInView = 0.50; // default to checking for at least 50% viewability
+
+            // Reset windowHeight & windowWidth in case of change in window size
+            windowHeight = (parent.window || window).innerHeight;
+            windowWidth = (parent.window || window).innerWidth;
+
+            // Ad is offscreen
+            if (bottom < 0 || top >= windowHeight || right < 0 || left >= windowWidth) {
+                return false;
+            }
+
+            // Adjust top, bottom, left and right if ad is partially offscreen
+            if (top < 0) {
+                top = 0;
+            }
+
+            if (bottom > windowHeight) {
+                bottom = windowHeight;
+            }
+
+            if (left < 0) {
+                left = 0;
+            }
+
+            if (right > windowWidth) {
+                right = windowWidth;
+            }
+
+            // Re-calculate the visible area of the ad
+            visibleHeight = bottom - top;
+            visibleWidth = right - left;
+            visibleArea = visibleHeight * visibleWidth;
+
+            // Determine what percentage of the ad needs to be visible, based on the ad's size
+            for (var i = 0; i < viewPercentToAdSizeMappings.length; i++) {
+                if ((adSizes.height * adSizes.width) >= viewPercentToAdSizeMappings[i].threshold) {
+                    minPercentInView = viewPercentToAdSizeMappings[i].percent;
+                }
+            }
+
+            return visibleArea >= (adArea * minPercentInView) ? true : false;
+        }
+    }
+})();
