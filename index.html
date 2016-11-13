@@ -63,9 +63,10 @@ net::ERR_INTERNET_DISCONNECTED
     	b_game_over: true,
     	a_letters_guessed: [],
     	a_letters_in_word:[],
+    	a_letters_found : [],
     	a_word_list:["enterpise", "klingon", "kirk", "spock", "bones","bajoran", "barclay","cardassian","stardate","dilithium","synthehol","picard","transporter","vulcan","warp"],
     	
-    	a_oseiisms_list:["show me your code", "you can do this", "i bake cookies", "pop-bamb", "i dance hip-hop","now for something really strange", "slack me","i'll be at whole foods","meet at a public place to code in a group","ask me questions"],
+    	a_oseiisms_list:["show me your code", "memorize", "you can do this", "i bake cookies", "pop-bamb", "i dance hip-hop","now for something really strange", "slack me","i'll be at whole foods","meet at a public place to code in a group","ask me questions"],
     	
     	m_win_up: function() {
           this.i_wins ++;
@@ -83,6 +84,7 @@ net::ERR_INTERNET_DISCONNECTED
           this.s_letters_guessed = "";
           this.a_letters_guessed = [];
           this.a_letters_in_word = [];
+          this.a_letters_found = [];
           this.b_game_over = false;
           console.log("New s_word: " + this.s_word);
         },
@@ -93,6 +95,7 @@ net::ERR_INTERNET_DISCONNECTED
         	var i_word_list_length = this.a_word_list.length;
         	var i_random_number = Math.floor((Math.random() * i_word_list_length) );
         	this.s_word = this.a_word_list[i_random_number];
+        	document.getElementById("the_word").innerHTML = this.s_word;
         	console.log("New word: " + this.s_word);
         	this.i_word_length =this.s_word.length;
         	console.log("New length: " + this.i_word_length.toString() );
@@ -102,6 +105,7 @@ net::ERR_INTERNET_DISCONNECTED
         		this.s_word_hidden = this.s_word_hidden + "_ "
         		var s_letter = this.s_word.substring(i, i + 1);
         		this.a_letters_in_word.push(s_letter);
+        		//this.a_letters_in_word[i]=s_letter;
         	}
         	console.log("The word array contains");
         	for(var i = 0; i < this.i_word_length; i++)
@@ -120,8 +124,7 @@ net::ERR_INTERNET_DISCONNECTED
         	console.log("osie phrase: " + s_osei);
         	return s_osei;
         },
-
-		m_re_encode_word: function(s_key) {
+		m_original_re_encode_word: function(s_key) {
 			console.log("s_key: " + s_key);
 			//var i_length = this.s_word.length;
 			var i_safe = 15;
@@ -156,6 +159,32 @@ net::ERR_INTERNET_DISCONNECTED
 
         	// 
         },
+		m_re_encode_word: function(s_key) {
+			var i_safe = 15;
+			this.s_word_hidden = "";
+			var i_index = this.s_word.indexOf(s_key);
+			if (i_index > -1)
+			{
+				for(var i = 0; i < this.i_word_length; i++)
+        			{
+        				var s_char = this.s_word.substring(i,i+1);
+        				var val = this.a_letters_found.indexOf(s_char);
+        				if (val > -1)
+        				{
+        					this.s_word_hidden = this.s_word_hidden + s_char + " ";
+        				}
+        				else
+        				{
+        					this.s_word_hidden = this.s_word_hidden + "_ ";
+        				}
+        			
+        			}
+
+			}
+			console.log("Done in m_re_encode_word");
+
+        	// 
+        },
 
 		m_update_screen: function() {
         	//
@@ -173,12 +202,14 @@ net::ERR_INTERNET_DISCONNECTED
         	this.s_letters_guessed = this.s_letters_guessed + s_key + " ";
         },
 
-        count_number_of_times_the_letter_is_in_the_word: function (s_key)	// not done
+        count_number_of_times_the_letter_is_in_the_word: function (s_l_word, s_key)
         {
         	console.log("Entered count_number_of_times_the_letter_is_in_the_word");
         	var i_return_val = 0;
-        	var i_return_val = count_str_in_string(this.a_letters_in_word,s_key);
-
+        	var i_return_val = count_str_in_string(this.s_word,s_key);
+        	if (i_return_val > 0){
+        		this.a_letters_found.push(s_key);
+        	}
         	console.log("leaving count_number_of_times_the_letter_is_in_the_word " + i_numb.toString());
         	return i_return_val;
         },
@@ -188,7 +219,7 @@ net::ERR_INTERNET_DISCONNECTED
         	var b_return_value = false;
 
         	//var i_index = this.a_letters_in_word.indexOf(s_key);
-        	var i_index = this.s_letters_guessed.indexOf(s_key);
+        	var i_index = this.a_letters_guessed.indexOf(s_key);
         	if (i_index > -1)
         	{
         		b_return_value = true;
@@ -210,6 +241,7 @@ net::ERR_INTERNET_DISCONNECTED
 		m_play: function(s_key) {
         	//this.i_guesses_remaining--;
         	//console.API.clear(); not working
+
         	var b_result = this.was_letter_used(s_key);
         	if (b_result === true){
         		return;}
@@ -217,18 +249,16 @@ net::ERR_INTERNET_DISCONNECTED
 			document.getElementById("guesses_remaining_data").innerHTML = this.i_guesses_remaining.toString();	// C
 			this.add_letter_to_used_list(s_key);
 			this.add_letter_to_used_string(s_key);
-			document.getElementById("letters_already_guessed_data").innerHTML = this.s_letters_used;	// D
+			document.getElementById("letters_already_guessed_data").innerHTML = this.s_letters_guessed;	// D
 			console.log("---------------------------------------------  D ");
 			var i_numb_found = this.count_number_of_times_the_letter_is_in_the_word(this.s_word,s_key)
 			this.i_found = this.i_found + i_numb_found;
 			this.m_re_encode_word(s_key);
-			console.log("this.s_word_hidden is " + this.s_word_hidden);
-
-
-
-			document.getElementById("current_word_data").innerHTML = this.s_word_hidden;	// B
-
-
+			if (this.s_word_hidden != "")
+			{
+				console.log("this.s_word_hidden is " + this.s_word_hidden);
+				document.getElementById("current_word_data").innerHTML = this.s_word_hidden;	// B
+			}
 
 			console.log("---------------------------------------------  B ");
 			if (this.i_word_length == this.i_found)
@@ -238,7 +268,10 @@ net::ERR_INTERNET_DISCONNECTED
 				document.getElementById("press_any_key_to_start").innerHTML = "You won!";
 				a_game_data.m_reset_for_new_game();
 			}
-			else if (this.i_guesses_remaining < 1) { this.b_game_over = true; }
+			else if (this.i_guesses_remaining < 1) 
+				{ 	this.b_game_over = true;
+					document.getElementById("press_any_key_to_start").innerHTML = "You Lost!";
+				}
 			return;
         },	// END of m_play: function
 
@@ -249,13 +282,7 @@ net::ERR_INTERNET_DISCONNECTED
 	document.onkeyup = function(event) {
     ///alert("button presssed");
     console.log("Button: " + event.key);
-    if(event.key === "2"){
-    	console.log("2 pressed");
-		a_game_data.m_assign_a_new_word();
-		up_date_display_of_word();
-	}
-
-    else if (a_game_data.b_game_over === true)
+    if (a_game_data.b_game_over === true)
     {
 		//document.getElementById("press_any_key_to_start").innerHTML = a_game_data.m_assign_a_new_osei;
 		a_game_data.m_reset_for_new_game();
@@ -267,52 +294,20 @@ net::ERR_INTERNET_DISCONNECTED
     {
     	// Update Displey with an OSEI-ism
     	document.getElementById("press_any_key_to_start").innerHTML = a_game_data.m_assign_a_new_osei();
-
-
-
-
-
-    	a_game_data.m_play(event.key);
-
-
-
+    	if (isLetter(event.key)){
+    		a_game_data.m_play(event.key);
+		}
     }
 //<!-- ---------------------------------- MAIN LOOP end --------------------------------------- -->
 
 
-    //document.write("You pressed: " + event.key)
-    //document.write("<br>Done");
 
-  //   if (event.key === "1"){
-  //   	a_game_data.m_win_up();
-  //   	document.getElementById("wins_data").innerHTML = a_game_data.i_wins.toString();
-  //   	//console.log("you pressed e"); 
-		// //document.write("<br>e");
-  //   }
-  //   else if(event.key === "2"){
-  //   	a_game_data.m_assign_a_new_word();
-  //   	up_date_display_of_word();
-
-  //    	//console.log("you pressed a"); 
-		// //document.write("<br>a");
-  //   }
-  //   else if(event.key === "3"){
-  //   	a_game_data.m_reset_for_new_game();
-  //   }
-    
-  //   else if(event.key === "4"){
-  //   	// console.log("you pressed o"); 
-		// //document.write("<br> about to call function " + event.key);
-		// win_up();
-  //   }
-    
-  //   else{
-
-  //       }
     }
 
 
-
+	function isLetter(str) {
+  		return str.length === 1 && str.match(/[a-z]/i);
+	}
 
 
     function win_up (){	// this is used
@@ -440,7 +435,7 @@ function count_str_in_string(s_input,s_to_find)
 	</div>
 	<!-- ---------------------------------------------------------------------------- -->
 	<!-- ---------------------------------- 6 --------------------------------------- -->
-	<div class="container-fluid">
+<!-- 	<div class="container-fluid">
 		<div class="row" >
 			<div class="row">
 			  <div class="col-md-3"></div>
@@ -451,26 +446,26 @@ function count_str_in_string(s_input,s_to_find)
 			</div>
 
 		</div>
-	</div>
+	</div> -->
 	<!-- ------------------------------------------------------------------------- -->
 
 	<!-- ---------------------------------- 7 --------------------------------------- -->
-	<div class="container-fluid">
+<!-- 	<div class="container-fluid">
 		<div class="row" >
 			<div class="row">
 			  <div class="col-md-3"></div>
 			  <div class="col-md-6">
-				<div>mode</div>
+				<div id = "the_word">mode</div>
 			  </div>
 			  <div class="col-md-3"></div>
 			</div>
 
 		</div>
-	</div>
+	</div> -->
 	<!-- ------------------------------------------------------------------------- -->
 
 	<!-- ---------------------------------- 8 --------------------------------------- -->
-	<div class="container-fluid">
+<!-- 	<div class="container-fluid">
 		<div class="row" >
 			<div class="row">
 			  <div class="col-md-3"></div>
@@ -481,12 +476,8 @@ function count_str_in_string(s_input,s_to_find)
 			</div>
 
 		</div>
-	</div>
+	</div> -->
 	<!-- ------------------------------------------------------------------------- -->
 		
 </body>
 </html>
-
-<!-- 
-
- -->
