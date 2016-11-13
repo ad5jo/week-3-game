@@ -49,7 +49,6 @@ net::ERR_INTERNET_DISCONNECTED
 <body>
 <script type="text/javascript">
 
-	
 
 
     var a_game_data ={
@@ -194,7 +193,7 @@ net::ERR_INTERNET_DISCONNECTED
         	// Step 2
 
 			this.i_guesses_remaining--;
-			document.getElementById("guesses_remaining_data").innerHTML = this.i_guesses_remaining.toString();
+			//document.getElementById("guesses_remaining_data").innerHTML = this.i_guesses_remaining.toString();
 			// Step 3
 
 			this.add_letter_to_used_list(s_key);
@@ -205,6 +204,11 @@ net::ERR_INTERNET_DISCONNECTED
 			// Step 4
 			var i_numb_found = this.count_number_of_times_the_letter_is_in_the_word(this.s_word,s_key)
 			this.i_found = this.i_found + i_numb_found;
+			if (i_numb_found > 0)
+			{
+				this.i_guesses_remaining++;
+			}
+			document.getElementById("guesses_remaining_data").innerHTML = this.i_guesses_remaining.toString();
 			this.m_re_encode_word(s_key);
 			if (this.s_word_hidden != "")
 			{
@@ -229,6 +233,7 @@ net::ERR_INTERNET_DISCONNECTED
 					//document.getElementById("press_any_key_to_start").innerHTML = "You Lost!";
 					document.getElementById("press_any_key_to_start").innerHTML = "You lost. The word was " + this.s_word + " " + ". Press a letter key"; 
 					myFunction_show_lost();
+					pauseAudio();
 				}
 			// Step 6 done with m_play
 			return; // no return value expected
@@ -246,6 +251,7 @@ net::ERR_INTERNET_DISCONNECTED
 			document.getElementById("press_any_key_to_start").innerHTML = "Press a letter key";
 			document.getElementById("current_word_data").innerHTML = a_game_data.s_word_hidden;
 			a_game_data.b_game_over = false;
+			stopAudio();
 	    }
 
 	    else if (a_game_data.b_game_over === false)
@@ -268,8 +274,23 @@ net::ERR_INTERNET_DISCONNECTED
 	function playAudio() {
 		var x = document.getElementById("myAudio");
 	    x.play();
+	    // http://audiotrimmer.com/# up to 10 Meg size
 	}
 
+	function stopAudio() {
+		var x = document.getElementById("myAudio");
+
+	    x.pause();
+	    // http://audiotrimmer.com/# up to 10 Meg size
+	}
+
+	function pauseAudio() {
+		var x = document.getElementById("myAudio");
+	    x.pause();
+	    // http://audiotrimmer.com/# up to 10 Meg size
+	}
+
+	//var x = document.getElementById("myAudio");
 
 
 <!-- ------------------------------------------------------ -->
@@ -382,7 +403,7 @@ function myFunction_show_lost() {
 </script>
 
 <audio id="myAudio">
-  <source src="./assets/audio/va_room.mp3" type="audio/mpeg" >
+  <source src="./assets/audio/va_room-[AudioTrimmer.com]_230.mp3" type="audio/mpeg" >
 </audio>
 
 <h1 id = "STARTREK_TITLE" >Star Trek Hang Man</h1>
