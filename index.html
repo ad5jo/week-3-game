@@ -48,6 +48,10 @@ net::ERR_INTERNET_DISCONNECTED
 </head>
 <body>
 <script type="text/javascript">
+
+	
+
+
     var a_game_data ={
     	i_wins: 0,
     	i_guesses_remaining:0,
@@ -215,6 +219,7 @@ net::ERR_INTERNET_DISCONNECTED
 				win_up();
 				this.b_game_over = true;
 				document.getElementById("press_any_key_to_start").innerHTML = "You won! Press a letter key";
+				playAudio();
 				a_game_data.m_reset_for_new_game();
 				//document.getElementById("current_word_data").innerHTML = this.s_word_hidden;
 				myFunction_show_won();
@@ -257,6 +262,15 @@ net::ERR_INTERNET_DISCONNECTED
 //<!-- ---------------------------------- MAIN LOOP end --------------------------------------- -->
 
 //<!-- --------------------------------- Begin Funtions --------------------------------------- -->
+
+
+
+	function playAudio() {
+		var x = document.getElementById("myAudio");
+	    x.play();
+	}
+
+
 
 <!-- ------------------------------------------------------ -->
 
@@ -366,6 +380,10 @@ function myFunction_show_lost() {
 
 
 </script>
+
+<audio id="myAudio">
+  <source src="./assets/audio/va_room.mp3" type="audio/mpeg" >
+</audio>
 
 <h1 id = "STARTREK_TITLE" >Star Trek Hang Man</h1>
 <!-- class="heading animated bounceInDown" -->
