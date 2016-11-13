@@ -95,7 +95,11 @@ net::ERR_INTERNET_DISCONNECTED
         	var i_word_list_length = this.a_word_list.length;
         	var i_random_number = Math.floor((Math.random() * i_word_list_length) );
         	this.s_word = this.a_word_list[i_random_number];
-        	document.getElementById("the_word").innerHTML = this.s_word;
+
+        	// this is for debug only
+        	//document.getElementById("the_word").innerHTML = this.s_word;
+        	document.getElementById("the_word").innerHTML = "";
+
         	console.log("New word: " + this.s_word);
         	this.i_word_length =this.s_word.length;
         	console.log("New length: " + this.i_word_length.toString() );
@@ -450,18 +454,18 @@ function count_str_in_string(s_input,s_to_find)
 	<!-- ------------------------------------------------------------------------- -->
 
 	<!-- ---------------------------------- 7 --------------------------------------- -->
-<!-- 	<div class="container-fluid">
+	<div class="container-fluid">
 		<div class="row" >
 			<div class="row">
 			  <div class="col-md-3"></div>
 			  <div class="col-md-6">
-				<div id = "the_word">mode</div>
+				<div id = "the_word"></div>
 			  </div>
 			  <div class="col-md-3"></div>
 			</div>
 
 		</div>
-	</div> -->
+	</div>
 	<!-- ------------------------------------------------------------------------- -->
 
 	<!-- ---------------------------------- 8 --------------------------------------- -->
