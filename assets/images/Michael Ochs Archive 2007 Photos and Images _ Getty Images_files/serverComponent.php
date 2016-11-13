@@ -1,2 +1,0 @@
-
-Bootstrapper._serverTime = '2016-11-13 13:34:33'; Bootstrapper._clientIP = '0.0.0.0'; var psj0 = 'http://nexus.ensighten.com/getty/prod/code/1aeff6d70d8386e4f0e4d2ffd7b7196a.js?conditionId0=415215';Bootstrapper.insertScript(psj0);var psj1 = 'http://nexus.ensighten.com/getty/prod/code/5a7b66d9240f4182789aa4aa05815cff.js?conditionId0=242025';Bootstrapper.loadScriptCallback(psj1, Bootstrapper.callOnPageSpecificCompletion);Bootstrapper.setPageSpecificDataDefinitionIds([])
